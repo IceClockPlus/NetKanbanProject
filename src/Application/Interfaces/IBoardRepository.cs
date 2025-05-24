@@ -1,7 +1,9 @@
+using Domain.Boards;
+
 namespace Application.Interfaces
 {
     public interface IBoardRepository
     {
-        Task<Guid> CreateBoardAync();
+        Task<Guid> CreateBoardAync(Board board);
     }
 }
