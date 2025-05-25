@@ -6,11 +6,40 @@ namespace Domain.Boards
     /// </summary>
     public class Board
     {
-        public required string Id { get; init; }
-        public required string Name { get; init; }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
         public string? Description { get; init; }
         public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; init; }
         public List<BoardParticipant> Participants { get; init; } = new List<BoardParticipant>();
+
+        /// <summary>
+        /// Default constructor for the Board class.
+        /// This constructor is used to create a new instance of the Board class without any parameters.
+        /// </summary>
+        public Board()
+        {
+            // Default constructor for serialization
+            Guid id = Guid.NewGuid();
+            Name = string.Empty;
+            Description = null;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = null;
+        }
+
+        public Board(
+            Guid id,
+            string name,
+            string? description,
+            DateTime createdAt,
+            DateTime? updatedAt)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
+        }
     }
 
 
