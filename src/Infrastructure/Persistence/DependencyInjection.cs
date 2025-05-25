@@ -16,6 +16,8 @@ namespace Persistence
             // Retrieve MongoDB connection string and database name from configuration
             var connectionString = configuration["MongoConnection:ConnectionString"];
             var databaseName = configuration["MongoConnection:DatabaseName"];
+            Console.WriteLine($"MongoDB Connection String: {connectionString}");
+            Console.WriteLine($"MongoDB Database Name: {databaseName}");
 
             if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(databaseName))
             {
