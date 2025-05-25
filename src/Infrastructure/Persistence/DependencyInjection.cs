@@ -5,6 +5,9 @@ namespace Persistence
     using Microsoft.Extensions.Configuration;
     using MongoDB.Driver;
     using Persistence.Repositories;
+    using MongoDB.Bson;
+    using MongoDB.Bson.Serialization;
+    using MongoDB.Bson.Serialization.Serializers;
 
     public static class DependencyInjection
     {
@@ -21,6 +24,7 @@ namespace Persistence
         
             // Register MongoDB client connection
             services.AddSingleton<IMongoClient>(new MongoClient(connectionString));
+            BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 
             // Register MongoDB database
             services.AddSingleton<IMongoDatabase>(sp =>
