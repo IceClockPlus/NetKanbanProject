@@ -33,6 +33,9 @@ app.MapGroup("/api/v1")
     .WithTags("API v1")
     .MapBoardsEndpoints();
 
+// Use custom error handling middleware
+app.UseMiddleware<API.Middlewares.ErrorHandlingMiddleware>();
+
 app.UseHttpsRedirection();
 
 
