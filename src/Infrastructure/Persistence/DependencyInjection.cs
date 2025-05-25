@@ -2,13 +2,23 @@ namespace Persistence
 {
     using Application.Interfaces;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Configuration;
     using MongoDB.Driver;
     using Persistence.Repositories;
 
     public static class DependencyInjection
     {
-        public static IServiceCollection AddPersistence(this IServiceCollection services, string connectionString, string databaseName)
+        public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
+            // Retrieve MongoDB connection string and database name from configuration
+            var connectionString = configuration["MongoConnection:ConnectionString"];
+            var databaseName = configuration["MongoConnection:DatabaseName"];
+
+            if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(databaseName))
+            {
+                throw new ArgumentException("MongoDB connection string or database name is not configured.");
+            }
+        
             // Register MongoDB client connection
             services.AddSingleton<IMongoClient>(new MongoClient(connectionString));
 

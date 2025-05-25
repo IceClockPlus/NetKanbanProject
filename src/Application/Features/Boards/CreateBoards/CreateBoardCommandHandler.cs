@@ -1,4 +1,5 @@
 using Application.Interfaces;
+using Contracts.Boards.Responses;
 using Domain.Boards;
 
 namespace Application.Features.Boards.CreateBoards
@@ -15,7 +16,7 @@ namespace Application.Features.Boards.CreateBoards
             _boardRepository = boardRepository;
         }
 
-        public async Task<Guid> Handle(CreateBoardCommand command, CancellationToken cancellationToken)
+        public async Task<CreateBoardResponse> Handle(CreateBoardCommand command, CancellationToken cancellationToken)
         { 
             try
             {
@@ -29,7 +30,14 @@ namespace Application.Features.Boards.CreateBoards
                 );
 
                 await _boardRepository.CreateBoardAync(boardToRegister, cancellationToken);
-                return boardToRegister.Id;
+
+                CreateBoardResponse boardResponse = new()
+                {
+                    Id = boardToRegister.Id.ToString(),
+                    Name = boardToRegister.Name,
+                    Description = boardToRegister.Description
+                };
+                return boardResponse;
             }
             catch (Exception ex)
             {
