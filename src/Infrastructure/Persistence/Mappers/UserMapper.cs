@@ -19,7 +19,6 @@ namespace Persistence.Mappers
                 UserCredetials = new()
                 {
                     Password = user.Credential.Password,
-                    Salt = user.Credential.Salt,
                     LastUpdate = user.Credential.LastChange
                 }
             };
@@ -29,7 +28,6 @@ namespace Persistence.Mappers
         {
             UserCredential credential = new(
                 document.UserCredetials.Password,
-                document.UserCredetials.Salt,
                 document.UserCredetials.LastUpdate
             );
             UserFullName userFullName = new(
