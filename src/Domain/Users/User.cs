@@ -10,7 +10,7 @@ namespace Domain.Users
         /// Represents the unique identifier for the user.
         /// This property is required and must be initialized when creating a new user.
         /// </summary>
-        public required string Id { get; init; }
+        public string Id { get; private set; }
         public UserFullName FullName { get; private set; }
         public UserEmail Email { get; private set; }
         public UserCredential Credential { get; private set; }

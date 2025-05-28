@@ -3,8 +3,8 @@ namespace Domain.Users
 {
     public sealed class UserCredential : Domain.ValueObject.ValueObject
     {
-        public required string Password { get; init; }
-        public required string Salt { get; init; }
+        public string Password { get; private set; }
+        public string Salt { get; private set; }
         public DateTime? LastChange { get; private set; }
 
         public UserCredential(string password, string salt, DateTime? lastChange)
