@@ -11,12 +11,18 @@ namespace Domain.Users
         /// This property is required and must be initialized when creating a new user.
         /// </summary>
         public required string Id { get; init; }
-        public required string FirstName { get; init; }
-        public string? SecondName { get; init; }
-        public required string LastName { get; init; }
-        public string? Email { get; init; }
-        public string? PhoneNumber { get; init; }
+        public UserFullName FullName { get; private set; }
+        public UserEmail Email { get; private set; }
+        public UserCredential Credential { get; private set; }
         public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
         public string? AvatarUrl { get; init; }
+
+        public User(string id, UserFullName fullName, UserCredential credential, UserEmail email)
+        {
+            Id = id;
+            FullName = fullName;
+            Credential = credential;
+            Email = email;
+        }
     }
 }
