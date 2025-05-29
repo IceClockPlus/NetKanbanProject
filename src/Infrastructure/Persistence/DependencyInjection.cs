@@ -8,6 +8,7 @@ namespace Persistence
     using MongoDB.Bson;
     using MongoDB.Bson.Serialization;
     using MongoDB.Bson.Serialization.Serializers;
+    using Persistence.Hashing;
 
     public static class DependencyInjection
     {
@@ -34,9 +35,11 @@ namespace Persistence
                 var client = sp.GetRequiredService<IMongoClient>();
                 return client.GetDatabase(databaseName);
             });
-           
+
+            services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
             services.AddScoped<IBoardRepository, BoardRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }

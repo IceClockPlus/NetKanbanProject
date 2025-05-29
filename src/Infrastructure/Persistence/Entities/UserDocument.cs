@@ -2,7 +2,7 @@ namespace Persistence.Entities
 {
     public class UserDocument
     {
-        public required string Id { get; set; }
+        public required Guid Id { get; set; }
         public required string Name { get; set; }
         public string? SecondName { get; set; }
         public required string LastName { get; set; }

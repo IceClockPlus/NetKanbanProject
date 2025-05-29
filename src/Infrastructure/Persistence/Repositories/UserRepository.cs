@@ -14,13 +14,13 @@ namespace Persistence.Repositories
             _userCollection = database.GetCollection<UserDocument>("Users");
         }
 
-        public async Task<User?> GetByIdAsync(string id, CancellationToken cancellationToken)
+        public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var user = await _userCollection.Find(u => u.Id == id).FirstOrDefaultAsync(cancellationToken);
             return user?.ToDomain();
         }
 
-        public async Task<string> CreateUserAsync(User user, CancellationToken cancellationToken)
+        public async Task<Guid> CreateUserAsync(User user, CancellationToken cancellationToken)
         {
             var userDocument = user.ToDocument();
             await _userCollection.InsertOneAsync(userDocument, cancellationToken: cancellationToken);
