@@ -29,9 +29,12 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.MapGroup("/api/v1")
-    .WithTags("API v1")
-    .MapBoardsEndpoints();
+var v1Group = app.MapGroup("/api/v1")
+    .WithTags("API v1");
+
+v1Group.MapBoardsEndpoints();
+v1Group.MapUserEndpoints();
+
 
 // Use custom error handling middleware
 app.UseMiddleware<API.Middlewares.ErrorHandlingMiddleware>();
