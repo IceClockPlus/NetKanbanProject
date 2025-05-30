@@ -6,7 +6,7 @@ namespace Domain.Users
         public string Value { get; } = string.Empty;
         public UserEmail(string value)
         {
-            Value = value;
+            Value = value.ToLower();
         }
         protected override IEnumerable<object> GetAtomicValues()
         {

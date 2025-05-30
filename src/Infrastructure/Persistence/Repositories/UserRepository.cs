@@ -26,5 +26,18 @@ namespace Persistence.Repositories
             await _userCollection.InsertOneAsync(userDocument, cancellationToken: cancellationToken);
             return user.Id;
         }
+
+        /// <summary>
+        /// Method to get the user by its email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
+        {
+            var user = await _userCollection.Find(u => u.Email == email).FirstOrDefaultAsync();
+            return user?.ToDomain();
+        }
     }
 }
