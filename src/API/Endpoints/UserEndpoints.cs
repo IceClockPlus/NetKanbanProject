@@ -1,3 +1,4 @@
+using Application.Features.Users.AuthenticateUser;
 using Application.Features.Users.CreateUser;
 using Contracts.Boards.Requests;
 using Contracts.Users.Request;
@@ -19,6 +20,13 @@ namespace API.Endpoints
             .Produces<CreateUserResponse>(StatusCodes.Status201Created)
             .Accepts<CreateBoardRequest>("application/json");
 
+            group.MapPost("/auth", AuthenticateUserAsync)
+            .WithName("AuthenticateUser")
+            .WithSummary("Authenticate a user")
+            .Produces(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Accepts<AuthenticateUserRequest>("application/json");
+
         }
 
         private static async Task<IResult> CreateUserAsync(CreateUserCommandHandler handler,
@@ -35,6 +43,15 @@ namespace API.Endpoints
             var result = await handler.Handle(command, cancellationToken);
 
             return Results.Created($"/users/{result!.Id}", result);
+        }
+
+        private static async Task<IResult> AuthenticateUserAsync(AuthenticateUserCommandHandler handler,
+        [FromBody] AuthenticateUserRequest request, CancellationToken cancellationToken)
+        {
+            AuthenticateUserCommand command = new(request.Email, request.Password);
+            var result = await handler.Handle(command, cancellationToken);
+            if (result == null) return Results.Unauthorized();
+            return Results.Ok(result);
         }
     }
 
