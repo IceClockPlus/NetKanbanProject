@@ -1,4 +1,5 @@
 using Application.Features.Boards.CreateBoards;
+using Application.Features.Users.AuthenticateUser;
 using Application.Features.Users.CreateUser;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +11,12 @@ namespace Application
         {
             // Register application services and features here
             // For example, you can register MediatR handlers, AutoMapper profiles, etc.
+
+            // Handlers to manage boards
             services.AddScoped<CreateBoardCommandHandler>();
+
+            // Handlers to manage users
+            services.AddScoped<AuthenticateUserCommandHandler>();
             services.AddScoped<CreateUserCommandHandler>();
 
             return services;
