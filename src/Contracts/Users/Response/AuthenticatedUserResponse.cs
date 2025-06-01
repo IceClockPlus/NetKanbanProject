@@ -7,5 +7,6 @@ namespace Contracts.Users.Response
         public string? SecondName { get; init; }
         public required string LastName { get; set; }
         public required string Email { get; set; }
+        public string FullName { get => $"{FirstName} {LastName}"; }
     }
 }

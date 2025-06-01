@@ -1,3 +1,4 @@
+using API.Helpers.Authentication;
 using Application.Features.Users.AuthenticateUser;
 using Application.Features.Users.CreateUser;
 using Contracts.Boards.Requests;
@@ -25,7 +26,7 @@ namespace API.Endpoints
             .WithSummary("Authenticate a user")
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
-            .Accepts<AuthenticateUserRequest>("application/json");
+            .Accepts<AuthenticatedCredentialResponse>("application/json");
 
         }
 
@@ -46,12 +47,18 @@ namespace API.Endpoints
         }
 
         private static async Task<IResult> AuthenticateUserAsync(AuthenticateUserCommandHandler handler,
+        [FromServices] IAuthorizationService authorizationService,
         [FromBody] AuthenticateUserRequest request, CancellationToken cancellationToken)
         {
             AuthenticateUserCommand command = new(request.Email, request.Password);
             var result = await handler.Handle(command, cancellationToken);
             if (result == null) return Results.Unauthorized();
-            return Results.Ok(result);
+            var accessToken = authorizationService.GenerateAccessToken(result);
+
+            return Results.Ok(new AuthenticatedCredentialResponse
+            {
+                AccessToken = accessToken
+            });
         }
     }
 
