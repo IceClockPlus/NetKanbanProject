@@ -7,6 +7,8 @@ namespace Persistence.Entities
         public string? Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public List<BoardColumnDocument> Columns { get; set; } = new();
+        public List<BoardCollaboratorDocument> Collaborators { get; set; } = new();
     }
 
 }

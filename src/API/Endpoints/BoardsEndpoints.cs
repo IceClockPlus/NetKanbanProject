@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using Application.Features.Boards.CreateBoards;
+using Domain.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Endpoints
@@ -13,6 +15,7 @@ namespace API.Endpoints
             group.MapPost("/", CreateBoardAsync)
                 .WithName("CreateBoard")
                 .WithSummary("Creates a new board")
+                .RequireAuthorization()
                 .Produces<Contracts.Boards.Responses.CreateBoardResponse>(StatusCodes.Status201Created)
                 .Produces(StatusCodes.Status400BadRequest)
                 .Accepts<Contracts.Boards.Requests.CreateBoardRequest>("application/json");
@@ -20,14 +23,17 @@ namespace API.Endpoints
         }
         
         private static async Task<IResult> CreateBoardAsync(CreateBoardCommandHandler handler,
+            ClaimsPrincipal user,
             [FromBody] Contracts.Boards.Requests.CreateBoardRequest request,
             CancellationToken cancellationToken)
         {
+            string requesterUserId = user.FindFirst("sub")!.Value;
             // Here you would typically call a service to create the board
             var createBoardCommand = new CreateBoardCommand
             {
                 Name = request.Name,
-                Description = request.Description
+                Description = request.Description,
+                UserId = requesterUserId
             };
             var result = await handler.Handle(createBoardCommand, cancellationToken);
 

@@ -24,7 +24,7 @@ namespace API.Helpers.Authentication
                 new Claim(JwtRegisteredClaimNames.Name, user.FirstName),
                 new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("Id", user.Id)
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id)
             };
 
             var secKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
