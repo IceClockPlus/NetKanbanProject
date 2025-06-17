@@ -15,6 +15,13 @@ namespace Persistence.Repositories
             _boardCollection = database.GetCollection<BoardDocument>("Boards");
         }
 
+        public async Task<Board?> GetById(Guid id, CancellationToken cancellationToken)
+        {
+            var board = await _boardCollection.Find(b => b.Id == id).FirstOrDefaultAsync(cancellationToken);
+            if (board == null) return null;
+            return board.ToDomain();
+        }
+
         /// <summary>
         /// Creates a new board in the database.
         /// This method is asynchronous and returns the ID of the created board.
