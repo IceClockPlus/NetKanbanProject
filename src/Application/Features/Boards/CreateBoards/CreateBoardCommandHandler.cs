@@ -23,6 +23,22 @@ namespace Application.Features.Boards.CreateBoards
             try
             {
                 var user = await _userRepository.GetByIdAsync(Guid.Parse(command.UserId), cancellationToken);
+                if(user == null)
+                {
+                    throw new NullReferenceException($"User with ID {command.UserId} not found.");
+                }
+
+                var adminCollaborator = new BoardCollaborator(
+                    userId: user.Id,
+                    name: new Domain.Collaborators.CollaboratorName(
+                        firstName: user.FullName.FirstName,
+                        secondName: user.FullName.SecondName,
+                        lastName: user.FullName.LastName
+                    ),
+                    email: new Domain.Collaborators.CollaboratorEmail(user.Email.Value),
+                    role: Domain.Collaborators.CollaboratorRole.Admin,
+                    isActive: true
+                );
                 var guid = Guid.NewGuid();
                 var boardToRegister = new Board(
                     id: guid,
@@ -30,7 +46,8 @@ namespace Application.Features.Boards.CreateBoards
                     description: command.Description,
                     createdAt: DateTime.UtcNow,
                     updatedAt: null,
-                    columns: GenerateBoardColumns()
+                    columns: GenerateBoardColumns(),
+                    collaborators: [adminCollaborator]
                 );
 
                 await _boardRepository.CreateBoardAync(boardToRegister, cancellationToken);
