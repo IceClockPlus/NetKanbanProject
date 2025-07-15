@@ -19,7 +19,22 @@ namespace Persistence.Mappers
                 Name = board.Name,
                 Description = board.Description,
                 CreatedAt = board.CreatedAt,
-                UpdatedAt = board.UpdatedAt
+                UpdatedAt = board.UpdatedAt,
+                Columns = board.Columns.Select(c => new BoardColumnDocument
+                {
+                    ColumnId = c.ColumnId,
+                    Name = c.Name,
+                    ColumnType = (int)c.ColumnType,
+                }).ToList(),
+                Collaborators = board.Collaborators.Select(collaborator => new BoardCollaboratorDocument
+                {
+                    Id = collaborator.UserId,
+                    FirstName = collaborator.Name.FirstName,
+                    LastName = collaborator.Name.LastName,
+                    Email = collaborator.Email.Address,
+                    IsActive = collaborator.IsActive,
+                    Role = (int)collaborator.Role
+                }).ToList()
             };
         }
 
@@ -77,12 +92,14 @@ namespace Persistence.Mappers
         /// </summary>
         /// <param name="document"></param>
         /// <returns></returns>
-        public static BoardParticipant ToDomain(this BoardCollaboratorDocument document)
+        public static BoardCollaborator ToDomain(this BoardCollaboratorDocument document)
         {
-            return new BoardParticipant(
+            return new BoardCollaborator(
                 userId: document.Id,
-                new(document.FirstName, null, document.LastName),
-                new(document.Email)
+                name: new(document.FirstName, null, document.LastName),
+                email: new(document.Email),
+                role: (Domain.Collaborators.CollaboratorRole)document.Role,
+                isActive: document.IsActive
             );
         }
     

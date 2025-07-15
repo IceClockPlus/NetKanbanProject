@@ -20,7 +20,8 @@ namespace Persistence.Mappers
                 {
                     Password = user.Credential.Password,
                     LastUpdate = user.Credential.LastChange
-                }
+                },
+                IsEnabled = user.IsEnabled,
             };
         }
 
@@ -40,7 +41,8 @@ namespace Persistence.Mappers
                 id: document.Id,
                 fullName: userFullName,
                 credential: credential,
-                email: userEmail
+                email: userEmail,
+                isEnabled: document.IsEnabled
             );
 
         }

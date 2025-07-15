@@ -9,6 +9,8 @@ namespace Persistence.Entities
         public required string Email { get; set; }
         public DateTime CreatedAt { get; set; }
         public required UserCredetialsDocument UserCredetials { get; set; }
+        public bool IsEnabled { get; set; }
+        public string DefaultTimeZone { get; set; } = "UTC";
     }
 
     public class UserCredetialsDocument

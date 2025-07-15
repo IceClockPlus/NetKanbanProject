@@ -36,7 +36,7 @@ namespace Persistence.Repositories
         /// <exception cref="NotImplementedException"></exception>
         public async Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
         {
-            var user = await _userCollection.Find(u => u.Email == email).FirstOrDefaultAsync();
+            var user = await _userCollection.Find(u => u.Email == email).FirstOrDefaultAsync(cancellationToken);
             return user?.ToDomain();
         }
     }
