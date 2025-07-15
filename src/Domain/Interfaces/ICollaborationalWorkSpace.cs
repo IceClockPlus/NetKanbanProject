@@ -1,10 +1,12 @@
-using Domain.Participant;
+using Domain.Collaborators;
 
 namespace Domain.Interfaces
 {
     public interface ICollaborationalWorkSpace
     {
-        public void AddParticipant(ParticipantBase participant);
-        public void RemoveParticipant(ParticipantBase participant);
+
+        public void AddCollaborator(ICollaborator participant);
+        public void RemoveCollaborator(ICollaborator participant);
+        public void DisableCollaborator(ICollaborator collaborator);
     }
 }

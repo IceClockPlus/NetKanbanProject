@@ -1,5 +1,4 @@
 using Domain.Enums;
-using Domain.Participant;
 
 namespace Domain.Boards
 {
@@ -7,11 +6,11 @@ namespace Domain.Boards
     {
         public Guid Id { get; private set; }
         public string Name { get; private set; }
-        public BoardParticipant? AssignTo { get; private set; }
+        public BoardCollaborator? AssignTo { get; private set; }
         public int? Points { get; private set; }
         public WorkItemPriority? Priority { get; private set; }
 
-        public void ReassignWorkItem(BoardParticipant? participant)
+        public void ReassignWorkItem(BoardCollaborator? participant)
         {
             AssignTo = participant;
         }
@@ -33,7 +32,7 @@ namespace Domain.Boards
 
         public BoardWorkItem(Guid id,
         string name,
-        BoardParticipant? assignTo,
+        BoardCollaborator? assignTo,
         int? points, WorkItemPriority? priority)
         {
             Id = id;
