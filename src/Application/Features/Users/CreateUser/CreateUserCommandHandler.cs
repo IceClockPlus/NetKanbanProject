@@ -25,7 +25,8 @@ namespace Application.Features.Users.CreateUser
                 id: Guid.NewGuid(),
                 fullName: fullName,
                 credential: credential,
-                email: userEmail
+                email: userEmail,
+                isEnabled: true
             );
             await _userRepository.CreateUserAsync(user, cancellationToken);
 
